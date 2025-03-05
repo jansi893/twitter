@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>twitter</title>
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+
+</head>
+<body class="bg-gray-100 flex justify-center items-center h-screen">
+
+    <div class="max-w-md w-full bg-white p-8 rounded-lg shadow-lg">
+        <h2 class="text-3xl font-bold text-center text-blue-500">LOGIN</h2>
+        <p class="text-gray-600 text-center mb-6">Sign in to your account</p>
+
+        <form action="/login" method="POST">
+            <div class="mb-4">
+                <input type="text" name="email" placeholder="Email or Username"
+                    class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+
+            <div class="mb-4">
+                <input type="password" name="password" placeholder="Password"
+                    class="w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400">
+            </div>
+
+            <button type="submit"
+                class="w-full bg-blue-500 text-white py-2 rounded-md font-semibold hover:bg-blue-600 transition">Login</button>
+        </form>
+
+        <div class="flex justify-between items-center mt-4">
+            <a href="#" class="text-blue-500 text-sm hover:underline">Forgot Password?</a>
+            <a href="/signup" class="text-blue-500 text-sm hover:underline">Sign up for jansi-pagal</a>
+        </div>
+    </div>
+
+</body>
+</html>

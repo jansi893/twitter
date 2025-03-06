@@ -7,6 +7,8 @@ const path = require('path');
 const jwt = require('jsonwebtoken');
 const userModel = require('./models/user.model');
 
+const upload = require("./models/multer.model");
+
 // Connect to MongoDB
 require('./config/db.config');
 
@@ -18,7 +20,7 @@ app.use(cookieParser());
 app.use(session({
     resave: false,
     saveUninitialized: false,
-    secret: "secret"
+    secret: "jansi-pagal-hai"
 }));
 app.use(flash());
 
@@ -44,7 +46,7 @@ app.post('/login', async (req, res) => {
         return res.redirect('/');
     }
 
-    let token = jwt.sign({ username }, 'secret', { expiresIn: '1h' });
+    let token = jwt.sign({ username }, 'jansi-pagal-hai', { expiresIn: '1h' });
     res.cookie('token', token, { httpOnly: true });
     res.redirect('/profile');
 });
@@ -72,7 +74,7 @@ app.post('/signup', async (req, res) => {
                 username,
                 password: hash
             });
-            let token = jwt.sign({ username }, 'secret', { expiresIn: "1h" });
+            let token = jwt.sign({ username }, 'jansi-pagal-hai', { expiresIn: "1h" });
             res.cookie('jwt', token, { httpOnly: true });
             res.redirect('/');
         });
@@ -92,7 +94,7 @@ function isLoggedIn(req, res, next){
         req.flash('error', 'Please login to access this page');
         return res.redirect('/');
     }
-    jwt.verify(req.cookies.token, 'secret', async function(err, decoded){
+    jwt.verify(req.cookies.token, 'jansi-pagal-hai', async function(err, decoded){
         if(err){
             req.flash('error', 'Please login to access this page');
             res.cookie('token', "");
@@ -123,7 +125,13 @@ function isLoggedIn(req, res, next){
 app.get('/edit', (req, res) => {
     res.render('edit');
 });
-
+app.post('/upload', isLoggedIn, upload.single('profilePicture', "document"), async function(req, res){
+    let user = await userModel.findOne({username: req.user.username});
+    user.profilePicture = req.file.filename;
+    await user.save();
+    console.log(req.file.filename);
+    res.redirect('/profile',{userModel});
+})
 // Start Server
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
